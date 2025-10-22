@@ -1,4 +1,3 @@
-```text
 # tech.md
 
 Purpose: agent-facing recommendations for tools and generator choices.
@@ -21,4 +20,3 @@ Agent integration points
 Constraints
 - Avoid committing generated runtime artifacts by default. Agents must read .tproj for override.
 - Network operations (e.g., fetching remote schemas, fetching rates) require explicit permission in .tproj or Decision Point.
-```
