@@ -1,44 +1,59 @@
 ```text
-# structure.md
+# structure.md (solution-aware)
 
-Repository layout and naming conventions for agents and humans.
+This repository supports either:
+- Single-project layout (single .trac per repo root), OR
+- Solution layout (a single .trac at repo root used to coordinate multiple projects).
 
-Recommended root layout
+Root layout examples:
+
+Option A — Single Project
 Root/
-  - .trac/
-    - {project}.tproj
-    - specs/
-      - commands.md
-      - requirements.md
-      - design.md
-      - tech.md
-      - structure.md
-      - scope.md
-      - tasks.md
-      - openapi.yaml (optional)
-    - logs/
-      - YYYYMMDD_HHMMSSZ.log
-    - api-standards.md
-    - testing-standards.md
-    - code-conventions.md
-    - security-policies.md
-    - deployment-workflow.md
-  - specs/ (optional public copy)
-  - src/
-  - tests/
-  - docs/
+  .trac/
+    trac-spec-alpha.tproj
+    specs/
+    logs/
+  src/
+  docs/
 
-Naming & branch conventions
-- kebab-case filenames by default (override allowed in .tproj).
-- Feature branch name: feature/spec-F-###-short-desc
-- PR title: [spec][F-###] Short description
+Option B — Solution (multiple projects; one .trac at repo root)
+Root/
+  .trac/
+    trac.tsln                # solution manifest (required for multiple projects)
+    solution/
+      summary.md
+      scope.md
+    logs/
+  services/
+    spec-agent/
+      .trac/
+        trac-spec-alpha.tproj
+        specs/
+        logs/
+    example-api/
+      .trac/
+        example-api.tproj
+        specs/
+        logs/
+  docs/
+  src/
 
-Task & ID conventions
-- F-### for features (prefixed per-project)
-- T-### for tasks
-- D-### for decision points
+Rules
+- If `.trac/trac.tsln` exists, the repository is a solution repository. Agents must not assume a single project.
+- Per-project manifests and artifacts MUST live in the per-project `.trac/` directory as referenced in trac.tsln.
+- Agents should treat `.trac/trac.tsln` as authoritative for enumeration and solution-level flags.
 
-Versioning actions
-- If a change is non-breaking, increment spec patch (vX.Y.Z).
-- For breaking changes, create Decision Point and align on deprecation policy before merge.
+Naming & ID conventions (reminder)
+- Project IDs: P-001, P-002...
+- Feature IDs: {project_id}-F-###
+- Task IDs: {project_id}-T-###
+- Decision Points: {project_id}-D-### (or D-SOL-### for solution-level)
+
+Tasks & Issues mapping
+- Tasks created for a project must map to GitHub Issues using the project label (project-id) for easy filtering.
+- Solution-level Decision Points should be surfaced with `spec-solution` label.
+
+Per-project vs solution-level logs
+- Keep per-project logs small and focused.
+- Use .trac/logs (solution) for cross-project events, aggregated summaries, or solution Decision Points.
 ```
