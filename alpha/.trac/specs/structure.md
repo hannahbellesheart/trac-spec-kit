@@ -1,4 +1,3 @@
-```text
 # structure.md (solution-aware)
 
 This repository supports either:
@@ -56,4 +55,3 @@ Tasks & Issues mapping
 Per-project vs solution-level logs
 - Keep per-project logs small and focused.
 - Use .trac/logs (solution) for cross-project events, aggregated summaries, or solution Decision Points.
-```
