@@ -1,4 +1,3 @@
-```text
 # trac.tsln — Solution manifest (single .trac for multiple projects)
 # Format: YAML-ish key:value lines (machine-parseable)
 # One file per repository root when multiple projects exist.
@@ -42,4 +41,3 @@ allowed_rate_sources:
 notes: |
   - Agents MUST enumerate `projects[]` and allow the user or caller to select which project (or subset) the generation should target.
   - If a prompt targets the whole solution, agents must produce per-project spec artifacts and a solution-level summary.
-```
