@@ -1,4 +1,3 @@
-```text
 PR Title:
 [generated] [spec][{feature_id}] Short description
 
@@ -21,4 +20,3 @@ PR Body (required sections)
 
 Notes:
 - Do not merge until CI passes and required Decision Points approved.
-```
