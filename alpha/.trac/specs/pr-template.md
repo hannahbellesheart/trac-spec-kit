@@ -12,6 +12,7 @@ PR Body (required sections)
   - sources:
     - https://clutch.co/... | excerpt: "..."
     - https://www.upwork.com/... | excerpt: "..."
+    - https://www.goodfirms.co/... | excerpt: "..."
 - Decision Points raised:
   - D-###: brief reason & required approver (Principal EA)
 - Tests & CI:
@@ -20,3 +21,4 @@ PR Body (required sections)
 
 Notes:
 - Do not merge until CI passes and required Decision Points approved.
+```
