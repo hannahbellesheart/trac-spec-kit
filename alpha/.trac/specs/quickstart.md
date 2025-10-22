@@ -1,4 +1,3 @@
-```text
 # Quickstart for junior dev (run local & get productive)
 
 1) Install tooling (PowerShell on Windows or cross-platform pwsh)
@@ -22,4 +21,3 @@
    - .trac/{project}/specs/scope.md (features & estimates)
    - .trac/{project}/specs/tasks.md (task tracker)
    - .trac/{project}/logs/ (structured JSONL logs)
-```
