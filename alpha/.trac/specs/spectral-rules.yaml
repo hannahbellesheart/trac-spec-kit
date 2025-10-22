@@ -1,0 +1,63 @@
+extends: "spectral:oas"
+
+# Custom ruleset for TRAC spec governance
+rules:
+  info-contact:
+    description: "API info must include contact"
+    message: "Info.contact is required for published APIs"
+    severity: "error"
+    given: "$"
+    then:
+      field: "info.contact"
+      function: truthy
+
+  operation-operationId-unique:
+    description: "operationId must be unique"
+    message: "operationId should be unique across the spec"
+    severity: "warn"
+    given: "$.paths[*][*]"
+    then:
+      function: unique
+
+  oas3-valid-schema:
+    description: "Schema objects must be valid JSON Schema"
+    message: "Schema should be valid according to JSON Schema"
+    severity: "error"
+    given: "$..schema"
+    then:
+      function: schema
+
+  tags-description:
+    description: "Tags should have descriptions"
+    message: "Each tag should include a non-empty description"
+    severity: "info"
+    given: "$.tags[*]"
+    then:
+      field: "description"
+      function: truthy
+
+  avoid-x-fields:
+    description: "Avoid custom x- fields without approval"
+    message: "Custom x- fields are discouraged unless approved (record Decision Point)"
+    severity: "warn"
+    given: "$"
+    then:
+      function: truthy
+      # Note: to detect x- fields more specifically you'd use a JSONPath for properties starting with "x-"
+
+  security-schemes-present:
+    description: "External-facing APIs must declare a security scheme"
+    message: "Specify securitySchemes under components for public APIs"
+    severity: "error"
+    given: "$"
+    then:
+      field: "components.securitySchemes"
+      function: truthy
+
+  examples-present:
+    description: "Operations should include examples where appropriate"
+    message: "Include request/response examples to aid clients"
+    severity: "info"
+    given: "$.paths[*][*].requestBody.content[*].examples"
+    then:
+      function: truthy
