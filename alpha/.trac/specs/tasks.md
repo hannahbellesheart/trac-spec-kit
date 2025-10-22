@@ -1,4 +1,3 @@
-```text
 # tasks.md - Task tracker template (agent-ready)
 
 Project manifest: {project-name-placeholder}.tproj
@@ -34,4 +33,3 @@ Execution helpers (powershell examples)
 Notes
 - Agents must not change the ID scheme or overwrite existing IDs.
 - If adding tasks, pick the next numeric unused T-###.
-```
