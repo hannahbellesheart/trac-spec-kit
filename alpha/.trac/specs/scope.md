@@ -1,4 +1,3 @@
-```text
 # scope.md
 
 Project (placeholder): {project-name-placeholder}
@@ -59,4 +58,3 @@ Decision Points
 Agent responsibilities
 - When producing a new scope.md (first draft), agent must mark all placeholder costs as `PROVISIONAL`.
 - If user grants permission to fetch rates, agent must annotate rates with citation references and replace `PROVISIONAL`.
-```
