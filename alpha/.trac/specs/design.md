@@ -1,4 +1,3 @@
-```text
 # design.md
 
 Purpose
@@ -48,4 +47,3 @@ Security & privacy
 Open items (Decision Points)
 - D-001: Project manifest values (project name, commit policy).
 - D-002: Preferred generator languages for client SDKs.
-```
