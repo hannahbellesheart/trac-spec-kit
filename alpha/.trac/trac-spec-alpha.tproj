@@ -1,0 +1,38 @@
+project.name: trac-spec-alpha
+project.id: P-001
+author: hannahbellesheart
+created_at: 2025-10-22T14:39:00Z
+specs_path: .trac/specs/
+logs_path: .trac/logs/
+
+fetch_rates_on_generate: true
+
+allowed_rate_sources:
+  - https://clutch.co/
+  - https://www.goodfirms.co/
+  - https://www.upwork.com/
+  - https://www.toptal.com/
+  - https://www.freelancer.com/
+  - https://www.glassdoor.com/
+  - https://www.indeed.com/
+  - https://www.linkedin.com/salary/
+  - https://www.roberthalf.com/
+  - https://insights.stackoverflow.com/survey
+
+commit_generated_artifacts: true
+# Commit allowed, but auto-merge is disabled by default for safety.
+auto_merge: false
+
+sync_with_github_issues: true
+
+preferred_sdk_languages: []
+
+rates:
+  low: 50
+  standard: 120
+  high: 180
+
+cache_ttl_days: 30
+
+notes: |
+  - Any change to fetch_rates_on_generate, allowed_rate_sources, commit_generated_artifacts, or auto_merge must be recorded as Decision Point (D-###) and logged.
