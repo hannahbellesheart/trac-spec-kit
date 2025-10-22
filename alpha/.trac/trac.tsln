@@ -1,0 +1,45 @@
+```text
+# trac.tsln — Solution manifest (single .trac for multiple projects)
+# Format: YAML-ish key:value lines (machine-parseable)
+# One file per repository root when multiple projects exist.
+# The tracer/agent MUST read this file first when present.
+
+solution.name: trac-spec-solution-placeholder
+solution.id: S-001
+author: hannahbellesheart
+created_at: 2025-10-22T15:04:04Z
+description: >-
+  Solution manifest listing individual projects contained in this repository.
+  Each project has its own project manifest (.tproj) file referenced by `path`.
+projects:
+  - project.name: trac-spec-alpha
+    project.id: P-001
+    path: ./services/spec-agent
+    manifest: ./services/spec-agent/.trac/trac-spec-alpha.tproj
+  - project.name: example-api
+    project.id: P-002
+    path: ./examples/example-api
+    manifest: ./examples/example-api/.trac/example-api.tproj
+
+# Controls/flags that apply at the solution level (agents must merge these with per-project .tproj)
+fetch_rates_on_generate: true
+commit_generated_artifacts: true
+sync_with_github_issues: true
+
+# Global allowed sources for cost/hours; per-project .tproj may narrow this list
+allowed_rate_sources:
+  - https://clutch.co/
+  - https://www.goodfirms.co/
+  - https://www.upwork.com/
+  - https://www.toptal.com/
+  - https://www.freelancer.com/
+  - https://www.glassdoor.com/
+  - https://www.indeed.com/
+  - https://www.linkedin.com/salary/
+  - https://www.roberthalf.com/
+  - https://insights.stackoverflow.com/survey
+
+notes: |
+  - Agents MUST enumerate `projects[]` and allow the user or caller to select which project (or subset) the generation should target.
+  - If a prompt targets the whole solution, agents must produce per-project spec artifacts and a solution-level summary.
+```
