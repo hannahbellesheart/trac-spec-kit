@@ -1,4 +1,3 @@
-```text
 Title: [spec-task] {project_id} - {T-###} - Short task title
 
 Body:
@@ -18,4 +17,3 @@ Body:
 - Notes: Link to .trac entry: {path to .trac/specs/tasks.md}
 Labels: spec-task, {project_id}
 Assignee: (leave blank or set when assigned)
-```
