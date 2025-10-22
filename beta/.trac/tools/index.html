@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <title>TRAC Seed Files Editor</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <style>
+    body { font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial; margin: 0; display: flex; height: 100vh; }
+    #sidebar { width: 300px; border-right: 1px solid #ddd; padding: 12px; box-sizing: border-box; overflow:auto; }
+    #editor { flex: 1; display:flex; flex-direction:column; }
+    textarea { width:100%; height: calc(100vh - 110px); font-family: monospace; font-size: 13px; padding:10px; box-sizing:border-box; }
+    button { margin:6px 6px 6px 0; padding:8px 12px; }
+    .file { cursor:pointer; padding:6px; border-radius:4px; margin-bottom:6px; }
+    .file:hover { background:#f4f4f4; }
+    .status { font-size:12px; color:#666; }
+  </style>
+</head>
+<body>
+  <div id="sidebar">
+    <h3>TRAC Seed Editor</h3>
+    <p class="status" id="status">No folder loaded.</p>
+    <button id="openDir">Open TRAC Directory</button>
+    <div id="fileList"></div>
+    <hr/>
+    <div>
+      <button id="saveBtn" disabled>Save</button>
+      <button id="saveAsBtn" disabled>Save As</button>
+    </div>
+    <p style="font-size:12px;color:#666">This editor uses File System Access API (Chrome/Edge/Chromium). If your browser does not support it, run a local static server and use the editor to copy/paste files manually.</p>
+  </div>
+
+  <div id="editor">
+    <div style="padding:12px; border-bottom:1px solid #eee;">
+      <strong id="filePath">No file selected</strong>
+    </div>
+    <textarea id="contents" placeholder="Select a file from the left..." disabled></textarea>
+  </div>
+
+<script>
+  const requiredFiles = [
+    ".trac/manifest.json",
+    ".trac/commands.md",
+    ".trac/config.json",
+    ".trac/allowlists.yaml",
+    ".trac/schemas.json",
+    ".trac/specs/phase-workflow.md",
+    ".trac/policies/policies.md"
+  ];
+
+  let dirHandle = null;
+  let currentHandle = null;
+
+  const statusEl = document.getElementById('status');
+  const fileListEl = document.getElementById('fileList');
+  const openBtn = document.getElementById('openDir');
+  const saveBtn = document.getElementById('saveBtn');
+  const saveAsBtn = document.getElementById('saveAsBtn');
+  const contentsEl = document.getElementById('contents');
+  const filePathEl = document.getElementById('filePath');
+
+  openBtn.addEventListener('click', async () => {
+    try {
+      dirHandle = await window.showDirectoryPicker();
+      statusEl.textContent = 'Directory loaded: ' + dirHandle.name;
+      await refreshFileList();
+    } catch (err) {
+      statusEl.textContent = 'Open cancelled or unsupported: ' + (err.message || err);
+    }
+  });
+
+  async function refreshFileList() {
+    fileListEl.innerHTML = '';
+    for (const path of requiredFiles) {
+      const el = document.createElement('div'); el.className = 'file';
+      el.textContent = path;
+      el.addEventListener('click', () => openFile(path));
+      fileListEl.appendChild(el);
+    }
+  }
+
+  async function openFile(path) {
+    if (!dirHandle) { alert('Open a directory first'); return; }
+    try {
+      const parts = path.split('/');
+      let h = dirHandle;
+      for (let i = 0; i < parts.length; i++) {
+        const p = parts[i];
+        if (i === parts.length - 1) {
+          // file
+          if (await existsInDir(h, p, 'file')) {
+            currentHandle = await h.getFileHandle(p);
+            const file = await currentHandle.getFile();
+            const text = await file.text();
+            contentsEl.value = text;
+            contentsEl.disabled = false;
+            saveBtn.disabled = false;
+            saveAsBtn.disabled = false;
+            filePathEl.textContent = path;
+          } else {
+            // create empty
+            currentHandle = null;
+            contentsEl.value = '';
+            contentsEl.disabled = false;
+            saveBtn.disabled = true;
+            saveAsBtn.disabled = false;
+            filePathEl.textContent = path + ' (new)';
+          }
+        } else {
+          if (!await existsInDir(h, p, 'dir')) {
+            // create intermediate dir
+            h = await h.getDirectoryHandle(p, { create: true });
+          } else {
+            h = await h.getDirectoryHandle(p);
+          }
+        }
+      }
+    } catch (err) {
+      alert('Error opening file: ' + err.message);
+    }
+  }
+
+  async function existsInDir(h, name, type) {
+    for await (const [key, handle] of h.entries()) {
+      if (key === name) {
+        if (type === 'file' && handle.kind === 'file') return true;
+        if (type === 'dir' && handle.kind === 'directory') return true;
+      }
+    }
+    return false;
+  }
+
+  saveBtn.addEventListener('click', async () => {
+    if (!currentHandle) { alert('No file selected to overwrite. Use Save As.'); return; }
+    await writeFileHandle(currentHandle, contentsEl.value);
+    statusEl.textContent = 'Saved ' + filePathEl.textContent + ' at ' + new Date().toLocaleString();
+  });
+
+  saveAsBtn.addEventListener('click', async () => {
+    if (!dirHandle) { alert('Open a directory first'); return; }
+    const suggested = filePathEl.textContent || 'newfile.txt';
+    const name = prompt('Enter file name relative to selected directory:', suggested);
+    if (!name) return;
+    try {
+      // Create nested path
+      const parts = name.split('/');
+      let h = dirHandle;
+      for (let i = 0; i < parts.length; i++) {
+        const p = parts[i];
+        if (i === parts.length - 1) {
+          currentHandle = await h.getFileHandle(p, { create: true });
+        } else {
+          h = await h.getDirectoryHandle(p, { create: true });
+        }
+      }
+      await writeFileHandle(currentHandle, contentsEl.value);
+      statusEl.textContent = 'Saved as ' + name + ' at ' + new Date().toLocaleString();
+      await refreshFileList();
+    } catch (err) {
+      alert('Save As failed: ' + err.message);
+    }
+  });
+
+  async function writeFileHandle(fileHandle, contents) {
+    const writable = await fileHandle.createWritable();
+    await writable.write(contents);
+    await writable.close();
+  }
+</script>
+</body>
+</html>
