@@ -1,4 +1,3 @@
-```text
 # requirements.md (EARS-style)
 
 Source: user directive (2025-10-22) — Principal EA: hannahbellesheart
@@ -56,4 +55,3 @@ WHEN generating files,
 THE SYSTEM SHALL avoid writing secrets or PII and shall redact any suspect content in logs.
 
 (Agents: append further requirements following this pattern. Keep every requirement short and testable.)
-```
