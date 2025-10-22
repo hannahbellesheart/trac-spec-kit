@@ -1,8 +1,8 @@
 ```text
-# deployment-workflow.md
+# security-policies.md
 
-- CI builds and runs spectral lint and spec validation on PRs.
-- Merge to main triggers release workflow (manual approval step for public/external APIs).
-- Automate doc/client publish on release tags.
-- Rollback: create a point-release revert and follow documented migration guides.
+- Validate and sanitize all inputs (schema-driven).
+- Do not include secrets in specs or logs.
+- Use OAuth2 / OIDC for external APIs (recommended); API keys for internal use only.
+- Log trace/request IDs only — do not log PII.
 ```
