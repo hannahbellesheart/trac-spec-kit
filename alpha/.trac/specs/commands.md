@@ -1,4 +1,3 @@
-```text
 # commands.md (updated: solution-aware rules)
 
 Purpose
@@ -78,5 +77,3 @@ Example agent flow for "All projects" generation
   - Compute estimates (using per-project allowed sources)
   - Create per-project branches and PRs with `[generated]` marker
 - Produce .trac/solution/summary.md that aggregates phase totals and includes a breakdown by project
-
-```
