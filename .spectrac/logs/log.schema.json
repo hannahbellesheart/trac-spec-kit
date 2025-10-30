@@ -1,0 +1,46 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://schemas.spectrac.io/TRAC-Log-Entry.json",
+  "title": "TRAC Log Entry Schema",
+  "type": "object",
+  "description": "Structured, machine-readable log entry for audit and traceability.",
+  "required": ["ts", "action", "agent", "project_id", "entries"],
+  "properties": {
+    "ts": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp in ISO8601 UTC format (e.g., 2025-10-30T05:00:00Z). **Mandatory.**"
+    },
+    "action": {
+      "type": "string",
+      "enum": ["SESSION-START", "SESSION-END", "CREATE", "UPDATE", "TASK-UPDATE", "ESTIMATE-CALC", "ERROR"],
+      "description": "Canonical action type. **Mandatory.**"
+    },
+    "agent": {
+      "type": "string",
+      "description": "Source of the log entry (e.g., 'gemini-agent', 'local-cli')."
+    },
+    "user": {
+      "type": "string",
+      "description": "User identifier (e.g., 'hannahbellesheart', must not be PII unless essential for audit)."
+    },
+    "project_id": {
+      "type": "string",
+      "pattern": "^[A-Z0-9]+-\\d{3}$",
+      "description": "The target project ID (e.g., P-001). **Mandatory.**"
+    },
+    "solution_id": {
+      "type": "string",
+      "description": "The overall solution ID (e.g., S-001)."
+    },
+    "entries": {
+      "type": "object",
+      "description": "The specific payload related to the action (e.g., diffs, status updates, sources)."
+    },
+    "trace_id": {
+      "type": "string",
+      "description": "A unique request/session ID for tracing across services."
+    }
+  },
+  "additionalProperties": false
+}
