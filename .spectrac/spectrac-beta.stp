@@ -1,0 +1,62 @@
+{
+  "context": "Solution",
+  "project_id": "P-001",
+  "solution_id": "S-001",
+  "project_name": "spectrac-alpha",
+  "project_path": "./services/spec-agent",
+  "description": "The core Python CLI agent responsible for reading .spectrac files, managing the specification lifecycle, and interacting with LLM APIs. This project defines the SpecTRAC standard implementation.",
+
+  "config_tokens_state": {
+    "isFullyAutomated": false,
+    "path": "./services/spec-agent",
+    "requirements_format": "EARS",
+    "task_estimate_level": "all"
+  },
+
+  "governance_settings": {
+    "fetch_rates_on_generate": true,
+    "commit_generated_artifacts": true,
+    "sync_with_github_issues": true,
+    "cache_ttl_days": 90,
+    "required_governance_files": [
+      "api-standards.md",
+      "code-conventions.md",
+      "security-policies.md",
+      "testing-standards.md",
+      "commands.md"
+    ]
+  },
+
+  "allowed_rate_sources": [
+    "https://www.ziprecruiter.com/",
+    "https://www.velvetjobs.com/",
+    "https://arc.dev/",
+    "https://www.upwork.com/pricing-tool/",
+    "https://www.toptal.com/rate-estimator",
+    "https://clutch.co/",
+    "https://www.goodfirms.co/",
+    "https://www.freelancer.com/",
+    "https://www.glassdoor.com/",
+    "https://www.indeed.com/",
+    "https://www.linkedin.com/salary/",
+    "https://www.roberthalf.com/",
+    "https://insights.stackoverflow.com/survey"
+  ],
+
+  "estimate_state": {
+    "confidence": 0.833,
+    "date": "2025-10-30T01:20:00Z",
+    "project_rate_bands": { "low": 50.00, "standard": 65.00, "high": 85.00 },
+    "scope_phase_I_summary": {
+      "phase": "Phase I: Agent Core",
+      "hours": { "low": 15, "standard": 23, "high": 33 },
+      "cost": { "low": 750.00, "standard": 1495.00, "high": 2805.00 }
+    }
+  },
+
+  "current_ids": {
+    "features_max": "P-001-F-009",
+    "tasks_current_max": "P-001-T-005",
+    "decision_points_max": "P-001-D-005"
+  }
+}
