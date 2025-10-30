@@ -1,0 +1,56 @@
+{
+  "_header": {
+    "project": "{project-name}",
+    "project_id": "{P-ID}",
+    "solution_id": "{S-ID}",
+    "format_version": "1.1.0",
+    "created_at": "{timestamp}",
+    "purpose": "Authoritative state and configuration for Project {P-ID}."
+  },
+
+  "context": {
+    "mode": "{Solution/Single}",
+    "project_path": "{relative-path}",
+    "language": "{Primary-Language}",
+    "cli_framework": "{CLI-Framework}"
+  },
+
+  "configuration_tokens": {
+    "$projectname": "{project-name}",
+    "$isFullyAutomated": false,
+    "$path": "{source-path}",
+    "$requirements_format": "EARS",
+    "$task_estimate_level": "all",
+    "$target_languages": ["TypeScript", "Python"],
+    "$task_runner": "PowerShell / Python CLI"
+  },
+
+  "governance_settings": {
+    "fetch_rates_on_generate": true,
+    "commit_generated_artifacts": true,
+    "sync_with_github_issues": true,
+    "cache_ttl_days": 90
+  },
+
+  "allowed_rate_sources": [
+    "{url-1}",
+    "{url-2}"
+    /* ... Full list from directives.md Section 4.3 */
+  ],
+
+  "estimate_state": {
+    "confidence_threshold": 0.6,
+    "estimate_date": "{timestamp}",
+    "project_rate_bands": { "low": 50.00, "standard": 65.00, "high": 85.00 },
+    "scope_totals": {
+      "hours": { "low": "{total-h-l}", "standard": "{total-h-s}", "high": "{total-h-h}" },
+      "cost": { "low": "{total-c-l}", "standard": "{total-c-s}", "high": "{total-c-h}" }
+    }
+  },
+
+  "current_ids": {
+    "features_max": "{P-ID}-F-###",
+    "tasks_current_max": "{P-ID}-T-###",
+    "decision_points_max": "D-SOL-###"
+  }
+}
